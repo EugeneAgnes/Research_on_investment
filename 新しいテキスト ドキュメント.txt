@@ -1,0 +1,35 @@
+library(igraph)
+
+setwd("")
+
+investor <- read.csv("Coinvestors_DataProcessing_ver0.2.csv", header=T, row.names=1)
+
+investor.mat = as.matrix(investor)
+investor.g <- graph.adjacency(investor.mat, weighted=T, mode="undirected")
+plot(investor.g)
+
+g <- graph.data.frame(investor)
+
+V(g)$label.cex <- seq(0.5,1,length.out=6)         ## text size
+V(g)$size      <- seq(10,60,length.out=6)         ## circle size proportional to text size
+
+plot(g, vertex.label = V(g)$name,vertex.shape="circle",vertex.color="blue")
+
+plot(investor.g,
+    vertex.label.color=c("red"),
+    vertex.label.family="Times",                   # Font family of the label (e.g.“Times”, “Helvetica”)
+    vertex.label.font=1,                  # Font: 1 plain, 2 bold, 3, italic, 4 bold italic, 5 symbol
+    vertex.label.cex=c(0.5),                 # Font size (multiplication factor, device-dependent)
+    vertex.label.dist=0,                           # Distance between the label and the vertex
+    vertex.label.degree=0 ,                        # The position of the label in relation to the vertex (use pi)
+    vertex.color = rgb(0.8,0.2,0.2,0.9),           # Node color
+    vertex.frame.color = "Forestgreen",            # Node border color
+    vertex.shape=c("circle"),             # One of “none”, “circle”, “square”, “csquare”, “rectangle” “crectangle”, “vrectangle”, “pie”, “raster”, or “sphere”
+    vertex.size=c(2),	                          # Size of the node (default is 15
+    )
+
+plot(investor.g, vertex.size = 1, vertex.label = '') 
+
+igraph.options(plot.layout=layout.graphopt, vertex.size=1)
+plot(investor.g, vertex.size = 1, vertex.label = '') 
+dev.off()
